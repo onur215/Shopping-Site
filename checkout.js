@@ -96,16 +96,19 @@ btn.closest(".card").remove()
 
 calculateCardTotal()
 }
-
     })
-
-
-
-
 
 }
 
+//ADET DEĞİŞTİRME FONKSİYONU
 
+function pieceButton(){
+    document.querySelectorAll(".adet-controller").forEach((kutu)=>{
+        const plus = kutu.lastElementChild
+        const minus = kutu.firstElementChild
+        const adet = plus.previousElementSibling
+    })
+}
 
 
 
