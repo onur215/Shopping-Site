@@ -11,11 +11,10 @@ let sepettekiler = [
   { name: "Antique Clock", price: 69.99, piece: 1, img: "./img/photo3.jpg" },
 ];
 
-
 //!EKRANA BASTIRMA
 
-sepettekiler.forEach(({ img, name, price,piece }) => {
-    // dest
+sepettekiler.forEach(({ img, name, price, piece }) => {
+  // dest
   //   const{img,name,price}=urun
 
   document.querySelector("#product-rowlari").innerHTML += `
@@ -46,7 +45,7 @@ sepettekiler.forEach(({ img, name, price,piece }) => {
                   <div
                     class="border border-1 border-dark shadow-lg d-flex justify-content-center p-2"
                   >
-                    <div class="adet-controller">
+                    <div class="adet-controller ">
                       <button class="btn btn-secondary btn-sm minus">
                         <i class="fas fa-minus"></i>
                       </button>
@@ -65,7 +64,11 @@ sepettekiler.forEach(({ img, name, price,piece }) => {
                   </div>
 
                   <div class="mt-2">
-                    Ürün Toplam: $<span class="product-total">${(price * 0.7 * piece).toFixed(2)} </span>
+                    Ürün Toplam: $<span class="product-total">${(
+                      price *
+                      0.7 *
+                      piece
+                    ).toFixed(2)} </span>
                   </div>
       </div>
     </div>
@@ -75,76 +78,75 @@ sepettekiler.forEach(({ img, name, price,piece }) => {
 });
 
 //!browserdaki toplam fiyatların olduğu table ı güncelleme fonksiyonu
-calculateCardTotal()
+calculateCardTotal();
 
-removeButton()
+removeButton();
 
-
-
+pieceButton();
 
 //!SİLME FONKSİYONU
 
-function removeButton(){
+function removeButton() {
+  document.querySelectorAll(".remove-product").forEach((btn) => {
+    btn.onclick = () => {
+      //?ekrandan sil
 
-    document.querySelectorAll(".remove-product").forEach((btn)=>{
-btn.onclick=()=>{
+      // btn.parentElement.parentElement.parentElement.parentElement.remove()
+      btn.closest(".card").remove();
 
-//?ekrandan sil
-
-// btn.parentElement.parentElement.parentElement.parentElement.remove()
-btn.closest(".card").remove()
-
-calculateCardTotal()
-}
-    })
-
+      calculateCardTotal();
+    };
+  });
 }
 
-//ADET DEĞİŞTİRME FONKSİYONU
-pieceButton()
-function pieceButton(){
-    document.querySelectorAll(".adet-controller").forEach((kutu)=>{
-        const plus = kutu.lastElementChild
-        const minus = kutu.firstElementChild
-        const adet = plus.previousElementSibling
+//! ADET DEĞİŞTİRME FONKSİYONU
 
-        //plus butonuna basınca olacaklar
+function pieceButton() {
+  document.querySelectorAll(".adet-controller").forEach((kutu) => {
+    const plus = kutu.lastElementChild;
+    const minus = kutu.firstElementChild;
+    const adet = plus.previousElementSibling;
+    // const adet=kutu.children[1]
 
-        plus.onclick=()=>{
-            adet.textContent = +(adet.textContent)+1;
-            plus.closest(".card-body").querySelector(".product-total").textContent=
-            plus.closest(".card-body").querySelector(".indirim-price").textContent * adet.textContent
-        }
-    })
+    //!plus butonuna basınca olacaklar
+
+    plus.onclick = () => {
+      //ekranda adet güncelledik
+      adet.textContent = +adet.textContent + 1;
+
+      //ürünün carddaki toplamının güncellenmesi
+      plus.closest(".card-body").querySelector(".product-total").textContent =
+        plus.closest(".card-body").querySelector(".indirim-price").textContent *
+        adet.textContent;
+
+      calculateCardTotal();
+    };
+
+    //!minus a basınca olacaklar
+    minus.onclick = () => {
+      //ekranda adet güncelledik
+      adet.textContent = adet.textContent - 1;
+
+      //ürünün carddaki toplamının güncellenmesi
+      minus.closest(".card-body").querySelector(".product-total").textContent =
+        minus.closest(".card-body").querySelector(".indirim-price")
+          .textContent * adet.textContent;
+
+      calculateCardTotal();
+
+      //!adet 1 iken minus a basılırsa ürün ekrandan silinsin
+      if (adet.textContent < 1) {
+        alert("sileyim mi?");
+
+        minus.closest(".card").remove();
+      }
+    };
+  });
 }
-
-//!BUBBLİNG
-
-let flag = false;
-
-let h1 = document.querySelector("h1");
-
-h1.onclick = (e) => {
-  flag = !flag;
-  flag ? (h1.textContent = "Checkout Project") : (h1.textContent = "Alışveriş");
-
-  //!çalış ve sonra parent ını etkileme
-  e.stopPropagation();
-};
-
-let header = document.querySelector("header");
-
-header.onclick = () => {
-  flag = !flag;
-  flag ? (h1.textContent = "seni ezdim") 
-  : (h1.textContent = "tamam kızma");
-};
-
-
 
 //! Card toplam değerini hesaplama
 
-function calculateCardTotal(){
+function calculateCardTotal() {
   const toplam = document.querySelectorAll(".product-total");
 
   //!   querySelectorAll(), statik bir NodeList döndürür.
@@ -162,12 +164,36 @@ function calculateCardTotal(){
     0
   );
 
-document.querySelector(".productstoplam").textContent=pToplam
+  document.querySelector(".productstoplam").textContent = pToplam;
 
-document.querySelector(".vergi").textContent=pToplam * tax
+  document.querySelector(".vergi").textContent = pToplam * tax;
 
-document.querySelector(".kargo").textContent= pToplam ? shipping : 0
-  
-document.querySelector(".toplam").textContent = pToplam  ? (pToplam + pToplam * tax + shipping):0
+  document.querySelector(".kargo").textContent = pToplam ? shipping : 0;
 
+  document.querySelector(".toplam").textContent = pToplam
+    ? pToplam + pToplam * tax + shipping
+    : 0;
 }
+
+
+//!BUBBLİNG
+
+let flag = false;
+
+let h1 = document.querySelector("h1");
+
+h1.onclick = (e) => {
+   flag = !flag;
+  flag ? (h1.textContent = "Checkout Project") : (h1.textContent = "Cash-Carry");
+
+  //!çalış ve sonra parent ını etkileme
+   e.stopPropagation();
+};
+
+let header = document.querySelector("header");
+
+header.onclick = () => {
+  flag = !flag;
+  flag ? (h1.textContent = "seni ezdim") 
+  : (h1.textContent = "tamam kızma");
+};
