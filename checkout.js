@@ -1,6 +1,6 @@
 //* ===================================================
 //*                 Checkout Page Solution
-//*  map filter, dest,spread ===================================================
+//*  map filter, dest, bubbling ===================================================
 //!table da kullanılacak değişkenler
 const shipping = 15.0;
 const tax = 0.18;
@@ -14,11 +14,12 @@ let sepettekiler = [
 
 //!EKRANA BASTIRMA
 
-sepettekiler.forEach(({img,name,price,piece}) => {
-    //destructuring
-    // const{img,name,price} = urun
+sepettekiler.forEach(({ img, name, price,piece }) => {
+    // dest
+  //   const{img,name,price}=urun
 
-    document.querySelector("#product-rowlari").innerHTML+= `    <div class="card mb-3" style="max-width: 540px;">
+  document.querySelector("#product-rowlari").innerHTML += `
+    <div class="card mb-3" style="max-width: 540px;">
 
   <div class="row ">
 
@@ -34,7 +35,9 @@ sepettekiler.forEach(({img,name,price,piece}) => {
         
              <div class="ürün-price">
                     <p class="text-warning h2">$
-                      <span class="indirim-price">${(price * 0.7).toFixed(2)}</span>
+                      <span class="indirim-price">${(price * 0.7).toFixed(
+                        2
+                      )} </span>
                       <span class="h5 text-dark text-decoration-line-through">${price}</span>
                     </p>
                   </div>
@@ -62,20 +65,58 @@ sepettekiler.forEach(({img,name,price,piece}) => {
                   </div>
 
                   <div class="mt-2">
-                    Ürün Toplam: $<span class="product-total">${(price * 0.7 * piece).toFixed(2)}</span>
+                    Ürün Toplam: $<span class="product-total">${(price * 0.7 * piece).toFixed(2)} </span>
                   </div>
       </div>
     </div>
   </div>
-</div>`
-})
+</div>
+    `;
+});
+
+//!browserdaki toplam fiyatların olduğu table ı güncelleme fonksiyonu
+calculateCardTotal()
+
+removeButton()
+
+
+
+
+//!SİLME FONKSİYONU
+
+function removeButton(){
+
+    document.querySelectorAll(".remove-product").forEach((btn)=>{
+btn.onclick=()=>{
+
+//?ekrandan sil
+
+// btn.parentElement.parentElement.parentElement.parentElement.remove()
+btn.closest(".card").remove()
 
 calculateCardTotal()
-//! Card toplam değerini hesaplama
-function calculateCardTotal(){
-    const toplam = document.querySelectorAll(".product-total")
+}
 
-     //!   querySelectorAll(), statik bir NodeList döndürür.
+    })
+
+
+
+
+
+}
+
+
+
+
+
+
+
+//! Card toplam değerini hesaplama
+
+function calculateCardTotal(){
+  const toplam = document.querySelectorAll(".product-total");
+
+  //!   querySelectorAll(), statik bir NodeList döndürür.
   //!burada netten https://softauthor.com/javascript-htmlcollection-vs-nodelist/
   // Dizi Değil!
   // Bir NodeList bir dizi gibi görünebilir ama öyle değildir.
@@ -85,38 +126,17 @@ function calculateCardTotal(){
   //? pToplam= en alttaki tüm ürünler için vergi ve kargo hariç sepettekilerin indirimli fiyat toplamı
   //?Reduce tam olarak Array istiyor, nodelist yeterli değil
 
+  const pToplam = Array.from(toplam).reduce(
+    (acc, item) => acc + Number(item.textContent),
+    0
+  );
 
-    const pToplam = Array.from(toplam).reduce((acc,item)=>acc + Number(item.textContent),0);
+document.querySelector(".productstoplam").textContent=pToplam
 
-    console.log(pToplam);
+document.querySelector(".vergi").textContent=pToplam * tax
 
-    document.querySelector(".productstoplam").textContent = pToplam
-
-    document.querySelector(".vergi").textContent = pToplam * tax
-
-    document.querySelector(".kargo").textContent = pToplam == dolu ? shipping : 0
-
-    document.querySelector(".toplam").textContent = pToplam ? (pToplam + pToplam * tax + shipping) : 0
-
-}
-
-calculateCardTotal()
-
-removeButton()
-
-
-
-//!SİLME FONKSİYONU
-
-function removeButton(){
-      
-    document.querySelectorAll(".remove-product").forEach((btn)=>{
-        btn.onclick=()=>{
-            //?ekrandan sil
-            btn.closest(".card").remove()
-        }
-    })
-
+document.querySelector(".kargo").textContent= pToplam ? shipping : 0
+  
+document.querySelector(".toplam").textContent = pToplam  ? (pToplam + pToplam * tax + shipping):0
 
 }
-
