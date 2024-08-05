@@ -69,3 +69,13 @@ sepettekiler.forEach(({img,name,price,piece}) => {
   </div>
 </div>`
 })
+
+calculateCardTotal()
+//! Card toplam değerini hesaplama
+function calculateCardTotal(){
+    const toplam = document.querySelectorAll(".product-total")
+    const pToplam = Array.from(toplam).reduce((acc,item)=>acc + Number(item.textContent),0);
+
+    console.log(pToplam);
+}
+
