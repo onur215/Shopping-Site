@@ -74,8 +74,22 @@ calculateCardTotal()
 //! Card toplam değerini hesaplama
 function calculateCardTotal(){
     const toplam = document.querySelectorAll(".product-total")
+
+     //!   querySelectorAll(), statik bir NodeList döndürür.
+  //!burada netten https://softauthor.com/javascript-htmlcollection-vs-nodelist/
+  // Dizi Değil!
+  // Bir NodeList bir dizi gibi görünebilir ama öyle değildir.
+  // Bir NodeList içinde döngü yapabilir ve düğümlerine dizine göre başvurabilirsiniz.
+  // Ancak, bir NodeList'te reduce(), push(), pop() veya join() gibi Array yöntemlerini kullanamazsınız.
+
+  //? pToplam= en alttaki tüm ürünler için vergi ve kargo hariç sepettekilerin indirimli fiyat toplamı
+  //?Reduce tam olarak Array istiyor, nodelist yeterli değil
+
+
     const pToplam = Array.from(toplam).reduce((acc,item)=>acc + Number(item.textContent),0);
 
     console.log(pToplam);
+
+    document.querySelector(".productstoplam").textContent = pToplam
 }
 
