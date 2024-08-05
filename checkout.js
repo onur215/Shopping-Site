@@ -14,25 +14,28 @@ let sepettekiler = [
 
 //!EKRANA BASTIRMA
 
-sepettekiler.forEach((urun) => {
+sepettekiler.forEach(({img,name,price,piece}) => {
+    //destructuring
+    // const{img,name,price} = urun
+
     document.querySelector("#product-rowlari").innerHTML+= `    <div class="card mb-3" style="max-width: 540px;">
 
   <div class="row ">
 
     <div class="col-md-5 ">
-      <img src=  class=" w-100 rounded-start" alt="...">
+      <img src=${img}  class=" w-100 rounded-start" alt="...">
     </div>
 
     <div class="col-md-7 ">
 
       <div class="card-body">
       
-        <h5 class="card-title"></h5>
+        <h5 class="card-title">${name}</h5>
         
              <div class="ürün-price">
                     <p class="text-warning h2">$
-                      <span class="indirim-price"> </span>
-                      <span class="h5 text-dark text-decoration-line-through"></span>
+                      <span class="indirim-price">${(price * 0.7).toFixed(2)} </span>
+                      <span class="h5 text-dark text-decoration-line-through">${price}</span>
                     </p>
                   </div>
 
