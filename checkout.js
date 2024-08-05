@@ -34,7 +34,7 @@ sepettekiler.forEach(({img,name,price,piece}) => {
         
              <div class="ürün-price">
                     <p class="text-warning h2">$
-                      <span class="indirim-price">${(price * 0.7).toFixed(2)} </span>
+                      <span class="indirim-price">${(price * 0.7).toFixed(2)}</span>
                       <span class="h5 text-dark text-decoration-line-through">${price}</span>
                     </p>
                   </div>
@@ -47,7 +47,7 @@ sepettekiler.forEach(({img,name,price,piece}) => {
                       <button class="btn btn-secondary btn-sm minus">
                         <i class="fas fa-minus"></i>
                       </button>
-                      <p class="d-inline mx-4" id="ürün-adet"></p>
+                      <p class="d-inline mx-4" id="ürün-adet">${piece}</p>
                       <button class="btn btn-secondary btn-sm plus">
                         <i class="fas fa-plus"></i>
                       </button>
@@ -62,7 +62,7 @@ sepettekiler.forEach(({img,name,price,piece}) => {
                   </div>
 
                   <div class="mt-2">
-                    Ürün Toplam: $<span class="product-total"> </span>
+                    Ürün Toplam: $<span class="product-total">${(price * 0.7 * piece).toFixed(2)}</span>
                   </div>
       </div>
     </div>
