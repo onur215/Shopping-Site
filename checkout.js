@@ -91,5 +91,32 @@ function calculateCardTotal(){
     console.log(pToplam);
 
     document.querySelector(".productstoplam").textContent = pToplam
+
+    document.querySelector(".vergi").textContent = pToplam * tax
+
+    document.querySelector(".kargo").textContent = pToplam == dolu ? shipping : 0
+
+    document.querySelector(".toplam").textContent = pToplam ? (pToplam + pToplam * tax + shipping) : 0
+
+}
+
+calculateCardTotal()
+
+removeButton()
+
+
+
+//!SİLME FONKSİYONU
+
+function removeButton(){
+      
+    document.querySelectorAll(".remove-product").forEach((btn)=>{
+        btn.onclick=()=>{
+            //?ekrandan sil
+            btn.closest(".card").remove()
+        }
+    })
+
+
 }
 
