@@ -118,7 +118,27 @@ function pieceButton(){
     })
 }
 
+//!BUBBLİNG
 
+let flag = false;
+
+let h1 = document.querySelector("h1");
+
+h1.onclick = (e) => {
+  flag = !flag;
+  flag ? (h1.textContent = "Checkout Project") : (h1.textContent = "Alışveriş");
+
+  //!çalış ve sonra parent ını etkileme
+  e.stopPropagation();
+};
+
+let header = document.querySelector("header");
+
+header.onclick = () => {
+  flag = !flag;
+  flag ? (h1.textContent = "seni ezdim") 
+  : (h1.textContent = "tamam kızma");
+};
 
 
 
